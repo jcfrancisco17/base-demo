@@ -1,0 +1,14 @@
+version: '2'
+services:
+  rabbit-mq:
+    container_name: wabbit
+    image: rabbitmq:3-management
+    expose:
+    - 5672
+    - 15672
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    logging:
+      driver: json-file
+    network_mode: bridge

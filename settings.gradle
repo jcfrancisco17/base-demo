@@ -1,3 +1,5 @@
 rootProject.name = 'base-demo'
-//include "notification-service"
+include "notification-service"
 include "inventory"
+include 'inventory-event-publisher'
+

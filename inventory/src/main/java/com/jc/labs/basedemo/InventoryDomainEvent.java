@@ -2,12 +2,14 @@ package com.jc.labs.basedemo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-class DomainEvent {
+class InventoryDomainEvent {
 
     @Id
     private UUID id;
@@ -17,26 +19,22 @@ class DomainEvent {
     @Column(columnDefinition = "CLOB NOT NULL")
     private String data;
 
+    @Enumerated(EnumType.STRING)
     private EventState state;
 
-    private enum EventState {
-        NEW,
-        PUBLISHED
-    }
-
-    private DomainEvent() {
+    private InventoryDomainEvent() {
         //JPA
     }
 
-    private DomainEvent(String eventName, String data, EventState state) {
+    private InventoryDomainEvent(String eventName, String data, EventState state) {
         this.id = UUID.randomUUID();
         this.eventName = eventName;
         this.data = data;
         this.state = state;
     }
 
-    static DomainEvent newDomainEvent(String eventName, String data) {
-        return new DomainEvent(eventName, data, EventState.NEW);
+    static InventoryDomainEvent newDomainEvent(String eventName, String data) {
+        return new InventoryDomainEvent(eventName, data, EventState.NEW);
     }
 
     void markPublished() {
@@ -51,7 +49,7 @@ class DomainEvent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        DomainEvent that = (DomainEvent) o;
+        InventoryDomainEvent that = (InventoryDomainEvent) o;
         return Objects.equals(id, that.id);
     }
 
@@ -59,5 +57,9 @@ class DomainEvent {
     public int hashCode() {
 
         return Objects.hash(id);
+    }
+
+    public String getData() {
+        return data;
     }
 }

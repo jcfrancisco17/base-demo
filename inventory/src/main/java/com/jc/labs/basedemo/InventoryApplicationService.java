@@ -13,19 +13,19 @@ public class InventoryApplicationService {
 
     private InventoryRepository inventoryRepository;
 
-    private DomainEventRepository domainEventRepository;
+    private IventoryDomainEventRepository iventoryDomainEventRepository;
 
     InventoryApplicationService(InventoryRepository inventoryRepository,
-                                DomainEventRepository domainEventRepository) {
+                                IventoryDomainEventRepository iventoryDomainEventRepository) {
         this.inventoryRepository = inventoryRepository;
-        this.domainEventRepository = domainEventRepository;
+        this.iventoryDomainEventRepository = iventoryDomainEventRepository;
     }
 
     public InventoryDto addToInventory(String name) {
         Inventory inventory = new Inventory(name);
         inventoryRepository.save(inventory);
-        DomainEvent inventoryAdded = DomainEvent.newDomainEvent("inventoryAdded", toJSON(inventory));
-        domainEventRepository.save(inventoryAdded);
+        InventoryDomainEvent inventoryAdded = InventoryDomainEvent.newDomainEvent("inventoryAdded", toJSON(inventory));
+        iventoryDomainEventRepository.save(inventoryAdded);
         return new InventoryDto(inventory.getId(), inventory.getName(), inventory.getDateCreated());
     }
 
