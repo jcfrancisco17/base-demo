@@ -1,4 +1,4 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-class Inventory {
+public class Item {
 
     @Id
     private UUID id;
@@ -16,18 +16,18 @@ class Inventory {
 
     private LocalDateTime dateCreated;
 
-    private Inventory() {
+    private Item() {
         // JPA
     }
 
-    Inventory(String name) {
+    Item(String name) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.dateCreated = LocalDateTime.now();
     }
 
-    public static Inventory empty() {
-        return new Inventory();
+    public static Item empty() {
+        return new Item();
     }
 
     public UUID getId() {
@@ -50,8 +50,8 @@ class Inventory {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Inventory inventory = (Inventory) o;
-        return Objects.equals(id, inventory.id);
+        Item item = (Item) o;
+        return Objects.equals(id, item.id);
     }
 
     @Override

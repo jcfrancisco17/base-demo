@@ -1,18 +1,17 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.domain.web;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class InventoryAddResponse extends ResourceSupport {
+class ItemAddResponse extends ResourceSupport {
 
     private UUID inventoryId;
     private String name;
     private LocalDateTime dateCreated;
 
-    public InventoryAddResponse(UUID id, String name, LocalDateTime dateCreated) {
+    ItemAddResponse(UUID id, String name, LocalDateTime dateCreated) {
         this.inventoryId = id;
         this.name = name;
         this.dateCreated = dateCreated;

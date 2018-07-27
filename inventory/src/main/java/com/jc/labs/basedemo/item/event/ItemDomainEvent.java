@@ -1,4 +1,4 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.event;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-class InventoryDomainEvent {
+public class ItemDomainEvent {
 
     @Id
     private UUID id;
@@ -22,19 +22,19 @@ class InventoryDomainEvent {
     @Enumerated(EnumType.STRING)
     private EventState state;
 
-    private InventoryDomainEvent() {
+    private ItemDomainEvent() {
         //JPA
     }
 
-    private InventoryDomainEvent(String eventName, String data, EventState state) {
+    private ItemDomainEvent(String eventName, String data, EventState state) {
         this.id = UUID.randomUUID();
         this.eventName = eventName;
         this.data = data;
         this.state = state;
     }
 
-    static InventoryDomainEvent newDomainEvent(String eventName, String data) {
-        return new InventoryDomainEvent(eventName, data, EventState.NEW);
+    public static ItemDomainEvent newItemAdded(String data) {
+        return new ItemDomainEvent("itemAdded", data, EventState.NEW);
     }
 
     void markPublished() {
@@ -49,7 +49,7 @@ class InventoryDomainEvent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        InventoryDomainEvent that = (InventoryDomainEvent) o;
+        ItemDomainEvent that = (ItemDomainEvent) o;
         return Objects.equals(id, that.id);
     }
 

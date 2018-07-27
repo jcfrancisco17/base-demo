@@ -1,4 +1,4 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.event;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
@@ -6,5 +6,5 @@ import org.springframework.messaging.MessageChannel;
 public interface MessageBrokerChannels {
 
     @Output
-    MessageChannel inventoryAdded();
+    MessageChannel itemAdded();
 }

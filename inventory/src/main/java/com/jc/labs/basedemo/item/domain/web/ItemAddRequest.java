@@ -1,6 +1,6 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.domain.web;
 
-public class InventoryAddRequest {
+class ItemAddRequest {
     private String name;
 
     public String getName() {

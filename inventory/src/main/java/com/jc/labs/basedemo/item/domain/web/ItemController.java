@@ -1,5 +1,7 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.domain.web;
 
+import com.jc.labs.basedemo.item.domain.Item;
+import com.jc.labs.basedemo.item.domain.ItemApplicationService;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
@@ -18,28 +20,28 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
-class InventoryController {
+class ItemController {
 
-    private InventoryApplicationService inventoryApplicationService;
+    private ItemApplicationService itemApplicationService;
 
-    InventoryController(InventoryApplicationService inventoryApplicationService) {
-        this.inventoryApplicationService = inventoryApplicationService;
+    ItemController(ItemApplicationService itemApplicationService) {
+        this.itemApplicationService = itemApplicationService;
     }
 
     @PostMapping(path = "/inventory", produces = "application/hal+json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    Resource<InventoryAddResponse> addToInventory(@RequestBody InventoryAddRequest addRequest) {
-        InventoryDto newInventory = inventoryApplicationService.addToInventory(addRequest.getName());
+    Resource<ItemAddResponse> addToInventory(@RequestBody ItemAddRequest addRequest) {
+        Item newItem = itemApplicationService.addToInventory(addRequest.getName());
 
-        InventoryAddResponse response = new InventoryAddResponse(newInventory.getId(), newInventory.getName(), newInventory.getDateCreated());
-        Link selfRel = linkTo(methodOn(InventoryController.class).getById(newInventory.getId())).withSelfRel();
+        ItemAddResponse response = new ItemAddResponse(newItem.getId(), newItem.getName(), newItem.getDateCreated());
+        Link selfRel = linkTo(methodOn(ItemController.class).getById(newItem.getId())).withSelfRel();
         response.add(selfRel);
 
         return new Resource<>(response, selfRel);
     }
 
     @GetMapping(path = "/inventory/{id}")
-    InventoryDto getById(@PathVariable UUID id) {
-        return inventoryApplicationService.getById(id);
+    Item getById(@PathVariable UUID id) {
+        return itemApplicationService.getById(id);
     }
 }

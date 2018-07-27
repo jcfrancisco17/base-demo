@@ -1,4 +1,4 @@
-package com.jc.labs.basedemo;
+package com.jc.labs.basedemo.item.event;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-class InventoryEventPublisher {
+class ItemEventPublisher {
 
-    private IventoryDomainEventRepository inventoryDomainEventRepository;
+    private ItemDomainEventRepository itemDomainEventRepository;
 
     private MessageBrokerChannels messageBrokerChannels;
 
-    InventoryEventPublisher(IventoryDomainEventRepository iventoryDomainEventRepository,
-                            MessageBrokerChannels messageBrokerChannels) {
-        this.inventoryDomainEventRepository = iventoryDomainEventRepository;
+    ItemEventPublisher(ItemDomainEventRepository itemDomainEventRepository,
+                       MessageBrokerChannels messageBrokerChannels) {
+        this.itemDomainEventRepository = itemDomainEventRepository;
         this.messageBrokerChannels = messageBrokerChannels;
     }
 
@@ -23,17 +23,17 @@ class InventoryEventPublisher {
     @Transactional
     public void publishEvents() {
         System.out.println("Publishing events to broker");
-        var events = inventoryDomainEventRepository.findByState(EventState.NEW);
+        var events = itemDomainEventRepository.findByState(EventState.NEW);
         events
                 .forEach(domainEvent -> {
-                    boolean sent = messageBrokerChannels.inventoryAdded().send(buildMessage(domainEvent));
+                    boolean sent = messageBrokerChannels.itemAdded().send(buildMessage(domainEvent));
                    if (sent) {
                        domainEvent.markPublished();
                    }
                 });
     }
 
-    private Message<String> buildMessage(InventoryDomainEvent domainEvent) {
+    private Message<String> buildMessage(ItemDomainEvent domainEvent) {
         return MessageBuilder.withPayload(domainEvent.getData()).build();
     }
 
