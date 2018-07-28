@@ -23,12 +23,21 @@ public class ItemApplicationService {
         this.itemDomainEventRepository = iventoryDomainEventRepository;
     }
 
-    public Item addToInventory(String name) {
+    public Item addItem(String name) {
         Item item = new Item(name);
         Item newItem = itemRepository.save(item);
         ItemDomainEvent inventoryAdded = ItemDomainEvent.newItemAdded(toJSON(newItem));
         itemDomainEventRepository.save(inventoryAdded);
         return newItem;
+    }
+
+    public void deleteItem(UUID id) {
+        Item toDelete = itemRepository
+                .findById(id)
+                .orElseThrow(ItemNotFoundException::new);
+
+        itemRepository.deleteById(id);
+        itemDomainEventRepository.save(ItemDomainEvent.itemDeleted(toJSON(toDelete)));
     }
 
     private String toJSON(Item item) {
@@ -41,6 +50,6 @@ public class ItemApplicationService {
 
     public Item getById(UUID id) {
         return itemRepository.findById(id)
-                .orElse(Item.empty());
+                .orElseThrow(ItemNotFoundException::new);
     }
 }

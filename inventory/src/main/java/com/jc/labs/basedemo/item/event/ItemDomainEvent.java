@@ -37,6 +37,15 @@ public class ItemDomainEvent {
         return new ItemDomainEvent("itemAdded", data, EventState.NEW);
     }
 
+    //Make these domain event names type safe
+    public static ItemDomainEvent itemDeleted(String data) {
+        return new ItemDomainEvent("itemDeleted", data, EventState.NEW);
+    }
+
+    String getEventName() {
+        return eventName;
+    }
+
     void markPublished() {
         this.state = EventState.PUBLISHED;
     }
@@ -55,7 +64,6 @@ public class ItemDomainEvent {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 

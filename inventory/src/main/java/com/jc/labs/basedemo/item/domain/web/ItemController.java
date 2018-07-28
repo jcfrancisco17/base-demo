@@ -6,6 +6,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +32,23 @@ class ItemController {
 
     @PostMapping(path = "/inventory", produces = "application/hal+json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    Resource<ItemAddResponse> addToInventory(@RequestBody ItemAddRequest addRequest) {
-        Item newItem = itemApplicationService.addToInventory(addRequest.getName());
+    Resource<ItemAddResponse> addItem(@RequestBody ItemAddRequest addRequest) {
+        Item newItem = itemApplicationService.addItem(addRequest.getName());
 
         ItemAddResponse response = new ItemAddResponse(newItem.getId(), newItem.getName(), newItem.getDateCreated());
         Link selfRel = linkTo(methodOn(ItemController.class).getById(newItem.getId())).withSelfRel();
-        response.add(selfRel);
+        Link delete = linkTo(methodOn(ItemController.class).deleteItem(newItem.getId())).withRel("delete");
 
-        return new Resource<>(response, selfRel);
+        response.add(selfRel, delete);
+
+        return new Resource<>(response);
+    }
+
+    @DeleteMapping(path = "/inventory/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    ResponseEntity deleteItem(@PathVariable UUID id) {
+        itemApplicationService.deleteItem(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/inventory/{id}")

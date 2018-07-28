@@ -26,7 +26,17 @@ class ItemEventPublisher {
         var events = itemDomainEventRepository.findByState(EventState.NEW);
         events
                 .forEach(domainEvent -> {
-                    boolean sent = messageBrokerChannels.itemAdded().send(buildMessage(domainEvent));
+                    String eventName = domainEvent.getEventName();
+
+                    //Do not like this block but this works for now.
+                    boolean sent = false;
+                    Message<String> message = buildMessage(domainEvent);
+                    if ("itemAdded".equals(eventName)) {
+                        sent = messageBrokerChannels.itemAdded().send(message);
+                    } else if ("itemDeleted".equals(eventName)) {
+                        sent = messageBrokerChannels.itemDeleted().send(message);
+                    }
+
                    if (sent) {
                        domainEvent.markPublished();
                    }
