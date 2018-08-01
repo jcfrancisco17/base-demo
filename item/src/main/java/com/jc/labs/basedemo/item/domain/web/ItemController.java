@@ -30,6 +30,7 @@ class ItemController {
         this.itemApplicationService = itemApplicationService;
     }
 
+    //httpie has a problem with produces="application/hal+json.
     @PostMapping(path = "/item", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     Resource<ItemAddResponse> addItem(@RequestBody ItemAddRequest addRequest) {
