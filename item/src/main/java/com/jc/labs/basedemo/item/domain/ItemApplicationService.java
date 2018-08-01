@@ -26,8 +26,8 @@ public class ItemApplicationService {
     public Item addItem(String name) {
         Item item = new Item(name);
         Item newItem = itemRepository.save(item);
-        ItemDomainEvent inventoryAdded = ItemDomainEvent.newItemAdded(toJSON(newItem));
-        itemDomainEventRepository.save(inventoryAdded);
+        ItemDomainEvent itemAdded = ItemDomainEvent.newItemAdded(toJSON(newItem));
+        itemDomainEventRepository.save(itemAdded);
         return newItem;
     }
 

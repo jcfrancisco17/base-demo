@@ -30,7 +30,7 @@ class ItemController {
         this.itemApplicationService = itemApplicationService;
     }
 
-    @PostMapping(path = "/inventory", produces = "application/hal+json", consumes = "application/json")
+    @PostMapping(path = "/item", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     Resource<ItemAddResponse> addItem(@RequestBody ItemAddRequest addRequest) {
         Item newItem = itemApplicationService.addItem(addRequest.getName());
@@ -44,14 +44,14 @@ class ItemController {
         return new Resource<>(response);
     }
 
-    @DeleteMapping(path = "/inventory/{id}")
+    @DeleteMapping(path = "/item/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity deleteItem(@PathVariable UUID id) {
         itemApplicationService.deleteItem(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/inventory/{id}")
+    @GetMapping(path = "/item/{id}")
     Item getById(@PathVariable UUID id) {
         return itemApplicationService.getById(id);
     }

@@ -7,12 +7,12 @@ import java.util.UUID;
 
 class ItemAddResponse extends ResourceSupport {
 
-    private UUID inventoryId;
+    private UUID itemId;
     private String name;
     private LocalDateTime dateCreated;
 
     ItemAddResponse(UUID id, String name, LocalDateTime dateCreated) {
-        this.inventoryId = id;
+        this.itemId = id;
         this.name = name;
         this.dateCreated = dateCreated;
     }
@@ -25,7 +25,7 @@ class ItemAddResponse extends ResourceSupport {
         return dateCreated;
     }
 
-    public UUID getInventoryId() {
-        return inventoryId;
+    public UUID getitemId() {
+        return itemId;
     }
 }
