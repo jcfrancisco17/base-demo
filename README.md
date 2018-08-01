@@ -42,3 +42,21 @@ two services should be one service instead of two.
 same result as if the event was only received once.
 - **Out or order events** - Some processes require events to be processed in order. Services should be able to 
 determine if an event should no longer be processed because it happened prior to the last processed event.
+
+## How to run the project
+
+- This demo uses RabbitMQ as the message broker. A `docker-compose.yml` file with RabbitMQ is included for convenience.
+- Default `guest/guest` credentials are used for RabbitMQ. 
+
+1. In the root directory, type `docker-compose up` to start RabbitMQ. (Might need sudo)
+2. Run `NotificationServiceApplication.java`
+3. Run `ItemApplication.java`
+4. Send a `POST` request to `http://localhost:8080/item` with body
+
+    ```json
+    {
+       "name": "<any string>"
+    }
+    ```
+
+- To check the contents of the database, go to `http://localhost:8080/h2-console`. The JDBC URL is `jdbc:h2:mem:testdb`. 

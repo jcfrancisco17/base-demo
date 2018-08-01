@@ -8,7 +8,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.SubscribableChannel;
 
 @SpringBootApplication
-@EnableBinding(NotificationServiceApplication.MessageBrokerChannels.class)
+@EnableBinding(MessageBrokerChannels.class)
 public class NotificationServiceApplication {
 
     public static void main(String[] args) {
@@ -25,19 +25,20 @@ public class NotificationServiceApplication {
         System.out.println("Received payload to delete: " + message);
     }
 
-    /**
-     * An example of how to do custom channels
-     */
-    interface MessageBrokerChannels {
-        String ITEM_ADDED = "itemAdded";
+}
 
-        String ITEM_DELETED = "itemDeleted";
+/**
+ * An example of how to do custom channels
+ */
+interface MessageBrokerChannels {
+    String ITEM_ADDED = "itemAdded";
 
-        @Input(value = ITEM_ADDED)
-        SubscribableChannel itemAdded();
+    String ITEM_DELETED = "itemDeleted";
 
-        @Input(value = ITEM_DELETED)
-        SubscribableChannel itemDeleted();
+    @Input(value = ITEM_ADDED)
+    SubscribableChannel itemAdded();
 
-    }
+    @Input(value = ITEM_DELETED)
+    SubscribableChannel itemDeleted();
+
 }
